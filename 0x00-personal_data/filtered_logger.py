@@ -10,6 +10,7 @@ patterns = {
     'replace': lambda x: r'\g<field>={}'.format(x),
 }
 
+
 def filter_datum(fields, redaction, message, separator):
     """returns the log message obfuscated"""
     extract, replace = (patterns["extract"], patterns["replace"])
