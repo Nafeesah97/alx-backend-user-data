@@ -4,6 +4,7 @@ filtered logger
 Author: Nafeesah
 """
 import re
+from typing import List
 
 
 patterns = {
@@ -12,7 +13,9 @@ patterns = {
 }
 
 
-def filter_datum(fields, redaction, message, separator) -> str:
+def filter_datum(
+        fields: List[str], redaction: str, message: str, separator: str,
+        ) -> str:
     """
     returns the log message obfuscated
      Args:
