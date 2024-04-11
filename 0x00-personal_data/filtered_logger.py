@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 filtered logger
+Author: Nafeesah
 """
 import re
 
@@ -12,6 +13,16 @@ patterns = {
 
 
 def filter_datum(fields, redaction, message, separator) -> str:
-    """returns the log message obfuscated"""
+    """
+    returns the log message obfuscated
+     Args:
+      fields: List of field names to obfuscate.
+      redaction: String to replace sensitive data.
+      message: The log message string.
+      separator: Character separating fields in the message.
+
+    Returns:
+      The obfuscated log message
+    """
     extract, replace = (patterns["extract"], patterns["replace"])
     return re.sub(extract(fields, separator), replace(redaction), message)
