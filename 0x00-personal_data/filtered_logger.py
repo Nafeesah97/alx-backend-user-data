@@ -101,5 +101,6 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """filter values in incoming log records """
         message = super(RedactingFormatter, self).format(record)
-        text = filter_datum(self.fields, self.REDACTION, message, self.SEPARATOR)
+        text = filter_datum(
+                self.fields, self.REDACTION, message, self.SEPARATOR)
         return text
