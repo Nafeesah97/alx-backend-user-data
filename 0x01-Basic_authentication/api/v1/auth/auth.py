@@ -29,9 +29,9 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """add authorization credentials"""
-        if request is None or request.keys() != "Authorization":
+        if request is None or 'Authorization' not in request.headers:
             return None
-        return request.values()
+        return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
         """assert current user"""
