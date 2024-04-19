@@ -15,17 +15,18 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 known_routes = [
     '/api/v1/status/',
-    '/api/v1/unauthorized/', 
+    '/api/v1/unauthorized/',
     '/api/v1/forbidden/'
     ]
 if getenv("AUTH_TYPE") == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.before_request
 def before_request():
     """Executes before each request"""
-    if auth == None:
+    if auth is None:
         return
     if request.path in known_routes:
         return
@@ -34,6 +35,7 @@ def before_request():
             abort(401)
         if auth.current_user(request) is None:
             abort(403)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
