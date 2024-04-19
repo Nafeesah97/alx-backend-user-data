@@ -18,6 +18,9 @@ known_routes = [
     '/api/v1/unauthorized/',
     '/api/v1/forbidden/'
     ]
+if getenv("AUTH_TYPE") == "BasicAuth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 if getenv("AUTH_TYPE") == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()

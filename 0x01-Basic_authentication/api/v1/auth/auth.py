@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Module of Index views
+""" Module of Auth
 """
 from flask import request
 from typing import List, TypeVar
