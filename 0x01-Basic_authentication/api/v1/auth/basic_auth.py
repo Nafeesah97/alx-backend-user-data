@@ -4,6 +4,7 @@
 from api.v1.auth.auth import Auth
 import base64
 
+
 class BasicAuth(Auth):
     """
     A basic authentication class
@@ -29,7 +30,10 @@ class BasicAuth(Auth):
                 not isinstance(base64_authorization_header, str)):
             return None
         try:
-            decoded = base64.b64decode(base64_authorization_header).decode('utf-8')
+            decoded = (
+                    base64.b64decode(
+                        base64_authorization_header).decode('utf-8')
+                    )
             return decoded
-        except:
+        except Exception as e:
             return None
