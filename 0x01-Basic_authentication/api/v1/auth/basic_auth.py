@@ -6,6 +6,7 @@ from api.v1.auth.auth import Auth
 import base64
 from models.user import User
 
+
 class BasicAuth(Auth):
     """
     A basic authentication class
@@ -64,12 +65,12 @@ class BasicAuth(Auth):
                 not isinstance(user_pwd, str)):
             return None
         users = User.search({'email': user_email})
-        
+
         if users is None:
             return None
-        
+
         for user in users:
             if user.is_valid_password(user_pwd):
                 return user
-        
-        return None        
+
+        return None
