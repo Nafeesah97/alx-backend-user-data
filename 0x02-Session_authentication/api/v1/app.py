@@ -34,10 +34,10 @@ def before_request():
     if request.path in known_routes:
         return
     if auth.require_auth(request.path, known_routes):
+        request.current_user = auth.current_user(request)
         if auth.authorization_header(request) is None:
             abort(401)
-        request.current_user = auth.current_user(request)
-        if auth.current_user(request) is None:
+        if request.current_user is None:
             abort(403)
 
 
