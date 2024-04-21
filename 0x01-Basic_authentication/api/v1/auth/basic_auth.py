@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
 """ Module of Basic Auth
 """
-from ast import Return
-from typing import Set, Union, TypeVar, Tuple
+from typing import Set, Union, TypeVar
 from api.v1.auth.auth import Auth
 import base64
 from models.user import User
-import re
 
 
 class BasicAuth(Auth):
     """
     A basic authentication class
-    Methods:
-    int
-    str
     """
     def extract_base64_authorization_header(
             self, authorization_header: str) -> str:
@@ -46,23 +41,16 @@ class BasicAuth(Auth):
             return None
 
     def extract_user_credentials(
-            self,
-            decoded_base64_authorization_header: str,
-            ) -> Tuple[str, str]:
-        """Extracts user credentials from a base64-decoded authorization
-        header that uses the Basic authentication flow.
-        """
-        if type(decoded_base64_authorization_header) == str:
-            pattern = r'(?P<user>[^:]+):(?P<password>.+)'
-            field_match = re.fullmatch(
-                pattern,
-                decoded_base64_authorization_header.strip(),
-            )
-            if field_match is not None:
-                user = field_match.group('user')
-                password = field_match.group('password')
-                return user, password
-        return None, None
+            self, decoded_base64_authorization_header: str
+            ) -> (str, str):
+        """It is used to extract credentials"""
+        if (
+                decoded_base64_authorization_header is None or
+                not isinstance(decoded_base64_authorization_header, str)):
+            return (None, None)
+        user_email, *user_pwd_parts = decoded_base64_authorization_header.rsplit(':', 1)
+        user_pwd = ':'.join(user_pwd_parts) if user_pwd_parts else ''
+        return (user_email, user_pwd)
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
