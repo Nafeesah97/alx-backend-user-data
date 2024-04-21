@@ -48,9 +48,12 @@ class BasicAuth(Auth):
                 decoded_base64_authorization_header is None or
                 not isinstance(decoded_base64_authorization_header, str)):
             return (None, None)
-        user_email, *user_pwd_parts = decoded_base64_authorization_header.rsplit(':', 1)
-        user_pwd = ':'.join(user_pwd_parts) if user_pwd_parts else ''
-        return (user_email, user_pwd)
+        if ":" not in decoded_base64_authorization_header:
+            return (None, None)
+        else:
+            email, password = (
+                decoded_base64_authorization_header.split(":", 1))
+            return email, password
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
