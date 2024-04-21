@@ -22,10 +22,10 @@ class Auth:
             if (excluded_path.endswith("*") and
                 path.startswith(excluded_path[:-1])):
                 return False
-            elif path == excluded_path or path == excluded_path[-1]:
+            elif path == excluded_path or path.rstrip("/") == excluded_path.rstrip("/"):
                 return False
 
-            return True
+        return True
 
     def authorization_header(self, request=None) -> str:
         """add authorization credentials"""
