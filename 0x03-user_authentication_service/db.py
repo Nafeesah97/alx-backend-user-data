@@ -8,7 +8,7 @@ from sqlalchemy.orm.session import Session
 
 from user import Base, User
 from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound, ValueError
 
 
 class DB:
@@ -60,3 +60,13 @@ class DB:
         if res is None:
             raise NoResultFound()
         return res
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """updates a user info"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                user.key = value
+                self._session.commit()
+            else:
+                raise ValueError()
