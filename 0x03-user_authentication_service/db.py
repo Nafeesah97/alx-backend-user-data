@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from user import Base, User
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound as ORMNoResultFound
 
 
 class DB:
@@ -49,12 +49,16 @@ class DB:
         column = []
         row = []
         for key, value in kwargs.items():
-            column.append(key)
+            column.append(getattr(User, key))
             row.append(value)
         try:
             res = self.__session.query(User).filter(
                 tuple_(*column).in_([tuple(row)])
             ).first()
+            if res is None:
+                raise NoResultFound()
             return res
-        except Exception as error:
-            return error
+        except ORMNoResultFound:
+            raise NoResultFound()
+        except InvalidRequestError as error:
+            raise error
