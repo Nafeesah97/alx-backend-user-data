@@ -44,7 +44,7 @@ class DB:
             new_user = None
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """To filter the user and return first row"""
         column = []
         row = []
