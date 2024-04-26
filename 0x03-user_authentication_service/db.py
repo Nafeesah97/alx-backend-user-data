@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -41,3 +43,18 @@ class DB:
             self._session.rollback()
             new_user = None
         return new_user
+
+    def find_user_by(self, **kwargs):
+        """To filter the user and return first row"""
+        column = []
+        row = []
+        for key, value in kwargs.items():
+            column.append(key)
+            row.append(value)
+        try:
+            res = self.__session.query(User).filter(
+                tuple_(*column).in_([tuple(row)])
+            ).first()
+            return res
+        except Exception as error:
+            return error
