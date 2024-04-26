@@ -8,7 +8,7 @@ from sqlalchemy.orm.session import Session
 
 from user import Base, User
 from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound, ValueError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -69,4 +69,4 @@ class DB:
                 user.key = value
                 self._session.commit()
             else:
-                raise ValueError()
+                raise ValueError
