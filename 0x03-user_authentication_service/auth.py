@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A module for authentication-related routines.
+"""auth module
 """
 import bcrypt
 from uuid import uuid4
@@ -32,7 +32,7 @@ class Auth:
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
-        """Adds a new user to the database.
+        """registers a new user
         """
         try:
             self._db.find_user_by(email=email)
