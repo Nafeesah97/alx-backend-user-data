@@ -54,7 +54,7 @@ class DB:
                 row.append(value)
             else:
                 raise InvalidRequestError()
-        res = self.__session.query(User).filter(
+        res = self._session.query(User).filter(
             tuple_(*column).in_([tuple(row)])
         ).first()
         if res is None:
