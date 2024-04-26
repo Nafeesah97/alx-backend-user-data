@@ -10,20 +10,20 @@ from user import Base, User
 
 
 class DB:
-    """DB class
+    """DB class.
     """
 
     def __init__(self) -> None:
-        """Initialize a new DB instance
+        """Initialize a new DB instance.
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
 
     @property
     def _session(self) -> Session:
-        """Memoized session object
+        """Memoized session object.
         """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
@@ -31,16 +31,14 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """return user"""
+        """Adds a new user to the database.
+        """
         try:
-            user = User(email=email, hashed_password=hashed_password)
-            self._session.add(user)
+            new_user = User(email=email, hashed_password=hashed_password)
+            self._session.add(new_user)
             self._session.commit()
-            print(user)
-            return user
         except Exception:
             self._session.rollback()
-            user = None
-            print(user)
-            return user
+            new_user = None
+        return new_user
         
