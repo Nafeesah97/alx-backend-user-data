@@ -49,8 +49,11 @@ class DB:
         column = []
         row = []
         for key, value in kwargs.items():
-            column.append(getattr(User, key))
-            row.append(value)
+            if hasattr(User, key):
+                column.append(getattr(User, key))
+                row.append(value)
+            else:
+                raise InvalidRequestError()
         try:
             res = self.__session.query(User).filter(
                 tuple_(*column).in_([tuple(row)])
@@ -60,5 +63,3 @@ class DB:
             return res
         except ORMNoResultFound:
             raise NoResultFound()
-        except InvalidRequestError as error:
-            raise error
