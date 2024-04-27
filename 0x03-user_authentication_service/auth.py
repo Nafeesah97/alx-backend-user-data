@@ -46,7 +46,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             if user is not None:
-                hashed_password = user.hashed_password.encode('utf-8')
+                hashed_password = user.hashed_password
                 provided_password = password.encode('utf-8')
                 return bcrypt.checkpw(provided_password, hashed_password)
         except Exception:
